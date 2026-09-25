@@ -40,22 +40,32 @@ jobs:
           YT_URL="https://www.youtube.com/live/unVxJib34SI"
           OFFLINE_M3U8="https://raw.githubusercontent.com/MIFNtechnology/YtM3u8/github-private/assets/info.m3u8"
 
-          # Ekstrak Direct Combined Stream (Format 95 / 94 / 93 / best combined)
-          STREAM_URL=$(yt-dlp --cookies cookies.txt --js-runtimes deno -g -f "95/94/93/b/best" "$YT_URL" 2>/dev/null | head -n 1 || true)
+          # 1. Dapatkan HLS Live Manifest yang sah dari YouTube
+          STREAM_URL=$(yt-dlp --cookies cookies.txt --js-runtimes deno -g -f "hls-meta/b/best" "$YT_URL" 2>/dev/null | grep "manifest.googlevideo.com" | head -n 1 || true)
 
-          # Jika ekstrak gagal, fallback ke M3U8 offline
+          # Jika hls-meta tidak dijumpai, cuba format gabungan langsung
+          if [ -z "$STREAM_URL" ]; then
+            STREAM_URL=$(yt-dlp --cookies cookies.txt --js-runtimes deno -g -f "95/94/93/best" "$YT_URL" 2>/dev/null | head -n 1 || true)
+          fi
+
+          # 2. Tulis struktur HLS Live Master yang paksa player baca sebagai LIVE STREAM
           if [ -n "$STREAM_URL" ] && case "$STREAM_URL" in http*) true;; *) false;; esac; then
-            echo "Direct stream berhasil diambil! Mengupdate M3U8..."
-            echo "#EXTM3U" > "$TARGET_FILE"
-            echo "#EXT-X-VERSION:3" >> "$TARGET_FILE"
-            echo '#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=854x480' >> "$TARGET_FILE"
-            echo "$STREAM_URL" >> "$TARGET_FILE"
+            echo "Menjana HLS Live Playlist..."
+            {
+              echo "#EXTM3U"
+              echo "#EXT-X-VERSION:3"
+              echo "#EXT-X-INDEPENDENT-SEGMENTS"
+              echo '#EXT-X-STREAM-INF:BANDWIDTH=2500000,RESOLUTION=1280x720,CODECS="avc1.4d401f,mp4a.40.2"'
+              echo "$STREAM_URL"
+            } > "$TARGET_FILE"
           else
-            echo "Stream offline. Menggunakan Fallback M3U8..."
-            echo "#EXTM3U" > "$TARGET_FILE"
-            echo "#EXT-X-VERSION:3" >> "$TARGET_FILE"
-            echo '#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=854x480' >> "$TARGET_FILE"
-            echo "$OFFLINE_M3U8" >> "$TARGET_FILE"
+            echo "Stream offline, menggunakan Fallback..."
+            {
+              echo "#EXTM3U"
+              echo "#EXT-X-VERSION:3"
+              echo '#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=854x480'
+              echo "$OFFLINE_M3U8"
+            } > "$TARGET_FILE"
           fi
 
       - name: Safe Commit and Push to Github
@@ -63,7 +73,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Fix Error 1002 - Use direct combined stream [skip ci]" || exit 0
+          git commit -m "Auto update JQuake Master Index M3U8 [skip ci]" || exit 0
           git pull --rebase origin main || true
           git push || true
           
