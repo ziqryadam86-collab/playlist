@@ -1,5 +1,4 @@
 #EXTM3U
 #EXT-X-VERSION:3
-#EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-STREAM-INF:BANDWIDTH=2500000,RESOLUTION=1280x720,CODECS="avc1.4d401f,mp4a.40.2"
-https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1794235376/ei/kIfxatenMbucsfIP_or6-AU/ip/20.171.38.61/id/unVxJib34SI.1/itag/95/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/sgoap/gir%3Dyes%3Bitag%3D140/sgovp/gir%3Dyes%3Bitag%3D136/rqh/1/hls_chunk_host/rr5---sn-2imeyn7r.googlevideo.com/xpc/EgVo2aDSNQ%3D%3D/siu/1/bui/AZFAFb8xmBqzmeLSkRt22TUw_r_zsst7tpiOJblJF_vFwLCCrJNUqp68-7y0q6D3ZcaJZoh8-w/spc/mpRQ_9ilr9if8HoLf8t0HLmHDPG2F-aA9fWi91_eEKnYLL50D-KrP_qzE5StPTuon4Ecs0S8lEoR/vprv/1/ns/NOuog2vYC5THBGTFlt9OobYZ/reg/0/playlist_type/LIVE/met/1794213778,/mh/ZF/mm/44/mn/sn-2imeyn7r/ms/lva/mv/u/mvi/5/pl/16/rms/lva,lva/dover/11/pacing/0/epbp/1/keepalive/yes/fexp/51565116,52323633,52338435/n/C4bful0BeBQjPg/mt/1794213280/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,sgoap,sgovp,rqh,xpc,siu,bui,spc,vprv,ns,reg,playlist_type/sig/AE0s2JYwRQIgGAIbyU0Pwxu2p6kCx1JvtX249Dkxo5fqdCgFcWoI32wCIQCP7FBK8NJiy_FE-1tq2n-Makn4L7VsptTh15L5PQvjDg%3D%3D/lsparams/hls_chunk_host,met,mh,mm,mn,ms,mv,mvi,pl,rms/lsig/APaTxxMwRgIhAMfgeLIN0Q2JLlI5P7LFzA2topmbqCBvOf6aSoeL4zg3AiEAh6L7BIjh4g39PEV_TkwOaxQ5-9NAqAym3Q-SwezK61M%3D/playlist/index.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=854x480
+https://raw.githubusercontent.com/MIFNtechnology/YtM3u8/github-private/assets/info.m3u8
